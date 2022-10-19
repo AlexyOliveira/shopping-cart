@@ -97,7 +97,7 @@ const cartItemClickListener = async (event) => {
  */
 const createCartItemElement = async ({ id, title, price }) => {
   const div = document.createElement('div')
-  div.innerText = 'x'
+  div.innerText = 'x';
   div.className = 'excludeItem btn btn-danger'
   const li = document.createElement('li');
   li.className = 'cart__item';
