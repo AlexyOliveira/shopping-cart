@@ -7,6 +7,7 @@ const cleanButton = document.querySelector('.empty-cart');
 const totalPrice = document.querySelector('.total-price');
 const inputSearcher = document.querySelector('#inputSearch');
 const searcherButton = document.querySelector('#btn');
+const excludeItem = document.querySelector('.excludeItem')
 // const addCartButton = document.querySelectorAll('item__add');
 // Fique a vontade para modificar o código já escrito e criar suas próprias funções!
 /**
@@ -68,8 +69,9 @@ const thePrice = async (price) => {
 const saveCart = [];
 
 const cartItemClickListener = async (event) => {
-  event.target.remove();
-  const saveEvent = event.target;
+  
+  event.target.parentNode.remove();
+  const saveEvent = event.target.parentNode;
   const saveId = saveEvent.innerText.split(' ')[1];
   const res = await fetchItem(saveId);
   const getPrice = res.price;
@@ -94,11 +96,15 @@ const cartItemClickListener = async (event) => {
  * @returns {Element} Elemento de um item do carrinho.
  */
 const createCartItemElement = async ({ id, title, price }) => {
+  const div = document.createElement('div')
+  div.innerText = 'x'
+  div.className = 'excludeItem btn btn-danger'
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `ID: ${id} | TITULO: ${title} | VALOR: $${price}`;
-  li.addEventListener('click', cartItemClickListener);
+  div.addEventListener('click', cartItemClickListener);
   thePrice(await price);
+  li.appendChild(div)
   return li;
 };
 
@@ -128,7 +134,6 @@ async function addElements(param) {
     });
   });
 }
-
 cleanButton.addEventListener('click', () => {
   cartItemsList.innerHTML = '';
   totalPrice.innerText = 'Carrinho vazio';
@@ -142,6 +147,12 @@ span.className = 'loading btn btn-warning';
 span.innerText = 'carregando...';
 document.body.appendChild(span);
 };
+
+/////////////////////
+const saveToLocalStorage = () => {
+console.log(excludeItem)
+}
+///////////////////////
 
 const searchForProducts = () => {
   if (inputSearcher.value === '') {
